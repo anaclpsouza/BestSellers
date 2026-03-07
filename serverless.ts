@@ -1,5 +1,4 @@
 import type { AWS } from '@serverless/typescript';
-
 import hello from '@functions/hello';
 
 const serverlessConfiguration: AWS = {
@@ -8,7 +7,8 @@ const serverlessConfiguration: AWS = {
   plugins: ['serverless-esbuild'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs20.x',
+    region: 'us-east-1',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -18,19 +18,24 @@ const serverlessConfiguration: AWS = {
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
       PRODUCTS_TABLE: 'ProductsTable-${sls:stage}',
     },
-    iamRoleStatements: [
-      {
-        Effect: 'Allow',
-        Action: [
-          'dynamodb:PutItem',
-          'dynamodb:GetItem',
-          'dynamodb:Scan',
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: [
+              'dynamodb:PutItem',
+              'dynamodb:GetItem',
+              'dynamodb:Scan',
+              'dynamodb:Query',
+            ],
+            Resource: [
+              { 'Fn::GetAtt': ['ProductsTable', 'Arn'] }
+            ],
+          },
         ],
-        Resource: [
-          { 'Fn::GetAtt': ['ProductsTable', 'Arn'] }
-        ]
-      }
-    ]
+      },
+    },
   },
 
   resources: {
@@ -40,7 +45,7 @@ const serverlessConfiguration: AWS = {
         Properties: {
           TableName: 'ProductsTable-${sls:stage}',
           AttributeDefinitions: [
-            { AttributeNAme: 'id', AttributeType: 'S' }
+            { AttributeName: 'id', AttributeType: 'S' }
           ],
           KeySchema: [
             { AttributeName: 'id', KeyType: 'HASH' }
@@ -50,7 +55,7 @@ const serverlessConfiguration: AWS = {
       },
     },
   },
-  // import the function via paths
+
   functions: { hello },
   package: { individually: true },
   custom: {
@@ -59,7 +64,7 @@ const serverlessConfiguration: AWS = {
       minify: false,
       sourcemap: true,
       exclude: ['aws-sdk'],
-      target: 'node14',
+      target: 'node20',
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
