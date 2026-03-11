@@ -1,5 +1,5 @@
 ## Amazon Bestsellers Scraper & API
-Este projeto consiste em um sistema automatizado que realiza o web scraping dos 3 primeiros produtos da página de "Mais Vendidos" da Amazon, armazena os dados em um banco NoSQL (DynamoDB) e os disponibiliza através de uma API REST hospedada na AWS.
+Este projeto consiste em um sistema automatizado que realiza o web scraping dos 3 primeiros produtos da página de ["Mais Vendidos"](https://www.amazon.com.br/bestsellers) da Amazon, armazena os dados em um banco NoSQL (DynamoDB) e os disponibiliza através de uma API REST hospedada na AWS.
 
 ### 🛠️ Tecnologias Utilizadas
 
