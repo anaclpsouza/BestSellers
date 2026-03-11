@@ -1,5 +1,4 @@
 import type { AWS } from '@serverless/typescript';
-import hello from '@functions/hello';
 
 const serverlessConfiguration: AWS = {
   service: 'bestsellers',
@@ -56,20 +55,20 @@ const serverlessConfiguration: AWS = {
     },
   },
 
-  functions: { hello },
-  package: { individually: true },
-  custom: {
-    esbuild: {
-      bundle: true,
-      minify: false,
-      sourcemap: true,
-      exclude: ['aws-sdk'],
-      target: 'node20',
-      define: { 'require.resolve': undefined },
-      platform: 'node',
-      concurrency: 10,
+  functions: {
+    getProducts: {
+      handler: `src/functions/getProducts/handler.main`,
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'products',
+            cors: true,
+          },
+        },
+      ],
     },
-  },
-};
+  }
+}
 
 module.exports = serverlessConfiguration;

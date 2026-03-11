@@ -17,9 +17,9 @@ async function scrap() {
         
         return items.map(product => ({
             id : product.querySelector('.p13n-sc-uncoverable-faceout')?.id,
-            title: product.querySelector('.p13n-sc-truncate-desktop-type2')?.textContent?.trim(),
-            price: product.querySelector('._cDEzb_p13n-sc-price_3mJ9Z')?.textContent?.trim(),
-            image: product.querySelector('img.p13n-product-image')?.getAttribute('src'),
+            title: product.querySelector('.p13n-sc-truncate-desktop-type2')?.textContent?.trim() || "Nome do produto indisponível",
+            price: product.querySelector('._cDEzb_p13n-sc-price_3mJ9Z')?.textContent?.trim() || "Preço indisponível",
+            image: product.querySelector('img.p13n-product-image')?.getAttribute('src') || "Imagem indisponível",
         }));
     });
 
