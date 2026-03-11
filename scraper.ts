@@ -12,14 +12,15 @@ async function scrap() {
 
     await page.waitForSelector('.zg-carousel-general-faceout');
 
-   const products = await page.evaluate(() => {
+    const products = await page.evaluate(() => {
         const items = Array.from(document.querySelectorAll('.zg-carousel-general-faceout')).slice(0, 3);
-        
+
         return items.map(product => ({
-            id : product.querySelector('.p13n-sc-uncoverable-faceout')?.id,
+            id: product.querySelector('.p13n-sc-uncoverable-faceout')?.id || `temp-${Math.random()}`,
             title: product.querySelector('.p13n-sc-truncate-desktop-type2')?.textContent?.trim() || "Nome do produto indisponível",
             price: product.querySelector('._cDEzb_p13n-sc-price_3mJ9Z')?.textContent?.trim() || "Preço indisponível",
             image: product.querySelector('img.p13n-product-image')?.getAttribute('src') || "Imagem indisponível",
+            link : (product.querySelector('a.a-link-normal') as HTMLAnchorElement)?.href || "Link não encontrado"
         }));
     });
 
