@@ -5,18 +5,22 @@ const client = new DynamoDBClient({ region: "us-east-1" });
 const docClient = DynamoDBDocumentClient.from(client);
 
 export const main = async (event) => {
-  console.log("Evento recebido:", JSON.stringify(event)); 
-  
+  console.log("Evento recebido:", JSON.stringify(event));
+
   try {
-    const command = new ScanCommand({ 
-      TableName: process.env.PRODUCTS_TABLE 
+    const command = new ScanCommand({
+      TableName: process.env.PRODUCTS_TABLE
     });
-    
+
     const response = await docClient.send(command);
-    
+
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+      },
       body: JSON.stringify({
         items: response.Items,
         count: response.Count
