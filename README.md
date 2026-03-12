@@ -59,6 +59,8 @@ Com o banco populado, você pode acessar os dados via GET na URL gerada no passo
 curl --request GET 'https://SUA-URL.amazonaws.com/dev/products'
 ~~~ 
 
+  Ou executando a URL diretamente no navegador para melhor visualização.
+
 ### 📑 Detalhes do Endpoint
 
 **GET** `/products`
@@ -79,7 +81,6 @@ Retorna a lista dos 3 produtos mais vendidos capturados pelo scraper.
   ]
 }
 ```
-Ou executando a URL diretamente no navegador para melhor visualização.
 
 ### 📂 Estrutura de Arquivos
 - `src/scraper.ts`: Lógica do Web Scraping com Puppeteer.
